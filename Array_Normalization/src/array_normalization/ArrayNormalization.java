@@ -14,5 +14,4 @@ public class ArrayNormalization {
 
         (new ArrayNormalization()).Start();
     }
-
 }
