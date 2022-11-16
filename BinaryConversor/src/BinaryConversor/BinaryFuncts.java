@@ -29,7 +29,7 @@ public class BinaryFuncts {
 
             switch (option){
                 case 1:
-                    System.out.println("");
+                    binaryToDecimal();
                     break;
 
                 case 2:
@@ -59,17 +59,27 @@ public class BinaryFuncts {
         int decimal = 0;
         System.out.println("Introduce el numero decimal que desees:");
         decimal = integerValidation(decimal);
-        return 0;
+        return decimal;
     }
 
-    public ArrayList<Integer> askBinary(){
+    private int[] askBinary(){
+
+        System.out.println("******************************************************");
+        System.out.println("Por favor, introduce un número en binario");
+        char[] tmp = binaryValidation();
+        int[] binary = new int[tmp.length];
+
+        for(int i = 0;i<tmp.length;i++){
+            binary[i] = tmp[i] - '0';
+        }
+
+        return binary;
+    }
+
+    public int[] askOctal() {
+
 
         return null;
-    }
-
-    public int askOctal() {
-
-        return 0;
     }
 
     public String askHexadecimal(){
@@ -78,7 +88,35 @@ public class BinaryFuncts {
     }
     // -------------------- CONVERSIONS --------------------
 
+    public void binaryToDecimal(){
 
+        int[] binary = askBinary();
+        int[] binary_aux = new int[binary.length];
+        double decimal = 0;
+        int aux = 0;
+
+        for (int i = 0; i < binary.length; i++) {
+            binary_aux[i] = binary[i];
+        }
+
+        for (int i = 0; i < binary_aux.length/2; i++) {
+            aux = binary_aux[i];
+            binary_aux[i] = binary_aux[binary_aux.length - 1 - i];
+            binary_aux[binary_aux.length - 1 - i] = aux;
+        }
+
+        for (int i = 0; i < binary_aux.length; i++) {
+
+            decimal = decimal + (binary_aux[i] * (Math.pow(2, i)));
+        }
+
+        System.out.print("El número binario ");
+        for (int i = 0; i < binary.length; i++) {
+            System.out.print(binary[i]);
+        }
+        System.out.println(" vale " + (int) decimal + " en decimal");
+        System.out.println("******************************************************");
+    }
 
     // -------------------- VALIDATIONS --------------------
 
@@ -94,17 +132,18 @@ public class BinaryFuncts {
         return entry;
     }
 
-    public ArrayList<Integer> binaryValidation (Integer entry) {
+    public char[] binaryValidation () {
 
-        ArrayList<Integer> binary_number = new ArrayList<>();
-        entry = 0;
+        char[] tmp = in.llegirLiniaC();
 
-        entry = in.llegirSencer();
-        while ((entry == null) || ((entry != 0) && (entry != 1))) {
+        for (int i = 0; i < tmp.length; i++) {
 
-            System.out.println("ERROR: lo que has introducido no forma parte de un número binario.");
-            entry = in.llegirSencer();
+            while (tmp[i] != '0' && tmp[i] != '1'){
+
+                System.out.println("Error: Lo que has introducido no es un número binario. Introduce otro válido:");
+                tmp = in.llegirLiniaC();
+            }
         }
-        return binary_number;
+        return tmp;
     }
 }
